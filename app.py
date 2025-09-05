@@ -15,9 +15,10 @@ valor_12 = st.number_input("🔹 Linha 3 - Valor do Produto (ICMS Interestadual 
 def calcular_difal(valor, aliq_inter):
     if valor <= 0:
         return 0.0, 0.0, 0.0, 0.0
-    base_calculo = valor / (1 - (aliquota_interna / 100))  # por dentro
+    icms_origem = valor * (aliq_inter / 100)  # imposto destacado na origem
+    valor_liquido = valor - icms_origem      # valor sem ICMS origem
+    base_calculo = valor_liquido / (1 - (aliquota_interna / 100))  # base por dentro
     icms_mt = base_calculo * (aliquota_interna / 100)
-    icms_origem = valor * (aliq_inter / 100)  # por fora
     difal = icms_mt - icms_origem
     efetiva = (difal / valor) * 100
     return base_calculo, icms_origem, difal, efetiva
